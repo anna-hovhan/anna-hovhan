@@ -1,6 +1,6 @@
 # Hi, I'm Anna Hovhannisyan 👋
 
-**AI Technical Architect at Miro · I build Claude plugins and AI operating systems for teams**
+**AI Strategy and Solutions Leader, Technical Architect at Miro · I build Claude plugins and AI operating systems for teams**
 
 I design AI systems that turn conversations and shared files into work people can use. My recent projects connect Slack, Jira and Miro into one loop, keep a Claude Project in sync with a shared Drive, and run a company's knowledge as one Obsidian vault. Based in Amsterdam.
 
