@@ -8,4 +8,4 @@ Building AI agents, systems and plugins for teams. [Company Brain](https://githu
 
 [![Website](https://img.shields.io/badge/Website-annahovhannisyan.com-0A66C2?style=flat-square)](https://annahovhannisyan.com)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Anna_Hovhannisyan-0A66C2?style=flat-square)](https://www.linkedin.com/in/anna-hovhannisyan/)
-[![LinkedIn](https://img.shields.io/badge/Email-Anna_Hovhannisyan-0A66C2?style=flat-square)](hello@annahovhannisyan.com)
+[![LinkedIn](https://img.shields.io/badge/Email-hello@annahovhannisyan.com-0A66C2?style=flat-square)](hello@annahovhannisyan.com)
