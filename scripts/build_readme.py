@@ -491,16 +491,15 @@ def small_cards(F):
 def buttons(F):
     """Pills at the small control height (44px). Each image has the same margins, so they line up in a row."""
     M, TOP, H = 6, 6, 68
-    for file, label, arrow, primary in [("btn-work.svg", "See my work", "→", True), ("btn-linkedin.svg", "LinkedIn", "↗", False), ("btn-email.svg", "Email me", "→", False)]:
+    for file, label, arrow, primary in [("btn-work.svg", "See my work", "→", True), ("btn-linkedin.svg", "linkedin.com/in/anna-hovhannisyan", "↗", False), ("btn-email.svg", "Email me", "→", False)]:
         font = F["sans6"] if primary else F["sans5"]
         tw, aw = font.width(label, 16), font.width(arrow, 16)
         w = round(18 + tw + 10 + aw + 18)
         d = Doc(w + 2 * M, H, label)
         if primary:
-            d.defs.append('<linearGradient id="g" x1="0" y1="0" x2="1" y2=".55"><stop offset="0" stop-color="%s"/><stop offset=".5" stop-color="%s"/><stop offset="1" stop-color="%s"/></linearGradient>' % (LILAC_200, LILAC_400, VIOLET_500))
             d.defs.append('<filter id="s" x="-20%" y="-60%" width="140%" height="260%"><feGaussianBlur stdDeviation="7"/></filter>')
             d.add('<rect x="%d" y="%d" width="%d" height="26" rx="13" fill="%s" opacity=".7" filter="url(#s)"/>' % (M + 14, TOP + 24, w - 28, VIOLET_500))
-            d.add('<rect x="%d" y="%d" width="%d" height="44" rx="22" fill="url(#g)"/>' % (M, TOP, w))
+            d.add('<rect x="%d" y="%d" width="%d" height="44" rx="22" fill="%s"/>' % (M, TOP, w, VIOLET_500))  # the accent, violet-500, solid
             d.add('<rect x="%s" y="%s" width="%d" height="43" rx="21.5" fill="none" stroke="#fff" stroke-opacity=".45"/>' % (f(M + 0.5), f(TOP + 0.5), w - 1))
         else:
             d.add('<rect x="%s" y="%s" width="%d" height="43" rx="21.5" fill="%s" stroke="%s"/>' % (f(M + 0.5), f(TOP + 0.5), w - 1, GHOST, BORDER_STRONG))

@@ -4,7 +4,7 @@
 
 <p>
   <a href="https://annahovhannisyan.com"><img src="assets/btn-work.svg" height="68" alt="See my work" /></a>
-  <a href="https://www.linkedin.com/in/anna-hovhannisyan/"><img src="assets/btn-linkedin.svg" height="68" alt="LinkedIn" /></a>
+  <a href="https://www.linkedin.com/in/anna-hovhannisyan/"><img src="assets/btn-linkedin.svg" height="68" alt="LinkedIn: linkedin.com/in/anna-hovhannisyan" /></a>
   <a href="mailto:hello@annahovhannisyan.com"><img src="assets/btn-email.svg" height="68" alt="Email me" /></a>
 </p>
 
