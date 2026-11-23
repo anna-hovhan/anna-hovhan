@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Draws the profile README's images into assets/.
+"""Draws the profile README's images into assets/: the banner, the stack row and the link buttons.
 
 GitHub shows a README's SVGs through <img>, where no web font loads and no script runs, so every
 letter is drawn as an outline (each glyph stored once, then reused) and all motion is CSS keyframes
@@ -304,7 +304,44 @@ def hero(F):
     d.save("hero.svg")
 
 
+STACK = ["Python", "TypeScript", "Claude Code", "Obsidian", "MCP", "Anthropic", "OpenAI", "Google", "Cloudflare", "Supabase"]
+LINKS = [("link-website.svg", "annahovhannisyan.com"), ("link-linkedin.svg", "linkedin.com/in/anna-hovhannisyan"), ("link-email.svg", "hello@annahovhannisyan.com")]
+
+
+def stack(F):
+    """The stack as one row of mono tags joined by dots, the way the site lists a post's topics."""
+    W, H, x = 900, 92, 40
+    d = Doc(W, H, "Stack: " + ", ".join(STACK) + ".")
+    d.defs.append('<clipPath id="card"><rect width="%d" height="%d" rx="16"/></clipPath>' % (W, H))
+    d.defs.append('<pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="12" cy="12" r="1" fill="%s" fill-opacity=".09"/></pattern>' % VIOLET_500)
+    d.add('<g clip-path="url(#card)"><rect width="%d" height="%d" fill="%s"/><rect width="%d" height="%d" fill="url(#dots)"/></g>' % (W, H, BG, W, H))
+    d.add('<rect x=".5" y=".5" width="%d" height="%d" rx="15.5" fill="none" stroke="%s"/>' % (W - 1, H - 1, BORDER))
+    d.text("STACK", F["mono5"], 12, x, 37, SUBTLE, 0.1)
+    size, cx = 13, x
+    for i, item in enumerate(STACK):
+        if i:
+            cx += d.text(" \u00b7 ", F["mono5"], size, cx, 64, VIOLET_700)
+        cx += d.text(item, F["mono5"], size, cx, 64, LILAC_400)
+    assert cx <= W - x, "the stack row is %d wide and must end by %d" % (cx, W - x)
+    d.save("stack.svg")
+
+
+def links(F):
+    """One CodeNode per link, each its own image so each can carry its own link in the README."""
+    for name, label in LINKS:
+        w = round(F["mono5"].width(label, 12) + 65)
+        d = Doc(w, 34, label)
+        d.add('<rect x=".5" y=".5" width="%d" height="33" rx="8" fill="%s" stroke="%s"/>' % (w - 1, RAISED, BORDER_NODE))
+        d.add('<rect x="14" y="14" width="6" height="6" fill="%s"/>' % VIOLET_500)
+        d.text(label, F["mono5"], 12, 28, 21.2, TEXT_NODE)
+        # The site's "opens elsewhere" arrow, pointing up and to the right.
+        d.add('<path d="M%d 21l8-8m-6 0h6v6" fill="none" stroke="%s" stroke-width="1.4"/>' % (w - 23, LILAC_300))
+        d.save(name)
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
     F = fonts()
     hero(F)
+    stack(F)
+    links(F)
