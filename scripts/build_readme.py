@@ -39,7 +39,7 @@ RULE_DASHED = "#24275a"
 TEXT, MUTED, SUBTLE, TEXT_NODE = "#eeedf7", "#b4b6d4", "#9c9fc4", "#c9c6ea"
 LILAC_50, LILAC_100, LILAC_200, LILAC_300, LILAC_400 = "#f5edff", "#eadcff", "#e6d9ff", "#c4a7ff", "#b8a6ff"
 VIOLET_500, VIOLET_600, VIOLET_700 = "#8f7cff", "#6d5dfc", "#5b4fe0"
-GLOW, ON_ACCENT, SUCCESS = "#b794f6", "#07081a", "#7ee2a8"
+GLOW = "#b794f6"
 
 
 def f(v, n=2):
@@ -142,25 +142,9 @@ def fonts():
             urllib.request.urlretrieve(SOURCE + urllib.parse.quote(path), target)
     return {
         "h1": Font("Newsreader.ttf", wght=400, opsz=60),
-        "h2": Font("Newsreader.ttf", wght=400, opsz=36),
-        "sans": Font("Schibsted.ttf", wght=400),
-        "sans5": Font("Schibsted.ttf", wght=500),
         "sans6": Font("Schibsted.ttf", wght=600),
-        "mono": Font("PlexMono-Regular.ttf"),
         "mono5": Font("PlexMono-Medium.ttf"),
     }
-
-
-def wrap(font, size, text, width):
-    lines, cur = [], ""
-    for word in text.split():
-        trial = (cur + " " + word).strip()
-        if cur and font.width(trial, size) > width:
-            lines.append(cur)
-            cur = word
-        else:
-            cur = trial
-    return lines + [cur]
 
 
 # ---------------------------------------------------------------- shared pieces
@@ -286,8 +270,8 @@ class Graph:
 
 
 def hero(F):
-    W, H = 900, 400
-    d = Doc(W, H, "Anna Hovhannisyan. Enterprise agentic AI, from discovery to delivery. Strategy, data, and execution in one place. AI Technical Architect at Miro, building AI agents, systems and plugins for teams. Beside the text, an agent graph: discovery.md, context/ and data.stack feed agent.plan() and skills/, which lead to agent.build(), mcp://crm and eval.run(), then team.enable().")
+    W, H = 900, 200
+    d = Doc(W, H, "Anna Hovhannisyan. Enterprise agentic AI, from discovery to delivery. Strategy, data, and execution in one place. Beside the text, part of an agent graph: discovery.md, context/ and data.stack feed agent.plan() and skills/.")
     d.defs.append('<clipPath id="card"><rect width="%d" height="%d" rx="16"/></clipPath>' % (W, H))
     d.defs.append('<pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="12" cy="12" r="1" fill="%s" fill-opacity=".09"/></pattern>' % VIOLET_500)
     d.defs.append('<pattern id="dots2" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="12" cy="12" r="1.1" fill="%s" fill-opacity=".5"/></pattern>' % VIOLET_500)
@@ -298,222 +282,29 @@ def hero(F):
     d.add('<g clip-path="url(#card)"><rect width="%d" height="%d" fill="%s"/><rect width="%d" height="%d" fill="url(#dots)"/><g mask="url(#wave)"><rect width="%d" height="%d" fill="url(#dots2)"/></g></g>' % (W, H, BG, W, H, W, H))
     d.add('<rect x=".5" y=".5" width="%d" height="%d" rx="15.5" fill="none" stroke="%s"/>' % (W - 1, H - 1, BORDER))
 
-    # Copy.
+    # Copy: the wordmark, the eyebrow and the headline, with its one phrase in lilac.
     x = 40
-    mark(d, x, 39, 12, 4, LILAC_100, "#fff")
-    d.text("Anna Hovhannisyan", F["sans6"], 17, x + 24, 51, TEXT, -0.005)
-    for i, line in enumerate(["ENTERPRISE AGENTIC AI,", "FROM DISCOVERY TO DELIVERY"]):
-        d.text(line, F["mono5"], 12, x, 118 + i * 18, LILAC_300, 0.1)
-    d.text("Strategy, data,", F["h1"], 44, x, 190, TEXT, -0.015)
-    d.text("and execution", F["h1"], 44, x, 238, TEXT, -0.015)
-    d.text("in one place.", F["h1"], 44, x, 286, LILAC_300, -0.015)
-    for i, line in enumerate(wrap(F["sans"], 16, "AI Technical Architect at Miro. I build AI agents, systems and plugins for teams.", 316)):
-        d.text(line, F["sans"], 16, x, 330 + i * 25.6, MUTED)
+    mark(d, x, 31, 12, 4, LILAC_100, "#fff")
+    d.text("Anna Hovhannisyan", F["sans6"], 17, x + 24, 43, TEXT, -0.005)
+    d.text("ENTERPRISE AGENTIC AI, FROM DISCOVERY TO DELIVERY", F["mono5"], 12, x, 80, LILAC_300, 0.1)
+    d.text("Strategy, data, and", F["h1"], 44, x, 127, TEXT, -0.015)
+    w = d.text("execution ", F["h1"], 44, x, 173, TEXT, -0.015)
+    d.text("in one place.", F["h1"], 44, x + w, 173, LILAC_300, -0.015)
 
-    # The agent graph (design-system README, Diagrams), in three columns.
+    # The inputs' side of the agent graph (design-system README, Diagrams).
     g = Graph(d, F, cycle=12, per=3)
-    a, b, c = 388, 548, 708
-    n = [
-        g.node(a, 64, "discovery.md"), g.node(a, 176, "context/"), g.node(a, 288, "data.stack"),
-        g.node(b, 120, "agent.plan()"), g.node(b, 232, "skills/"),
-        g.node(c, 64, "agent.build()"), g.node(c, 176, "mcp://crm"), g.node(c, 288, "eval.run()"),
-        g.node(b, 344, "team.enable()"),
-    ]
-    ab, bc = 536, 696
-    e = [g.side(0, 3, ab), g.side(1, 3, ab), g.side(1, 4, ab), g.side(2, 4, ab), g.side(3, 5, bc), g.side(3, 6, bc), g.side(4, 6, bc), g.side(4, 7, bc), g.drop(7, 8)]
+    a, b, mid = 572, 732, 720
+    n = [g.node(a, 44, "discovery.md"), g.node(a, 100, "context/"), g.node(a, 156, "data.stack"), g.node(b, 72, "agent.plan()"), g.node(b, 128, "skills/")]
+    e = [g.side(0, 3, mid), g.side(1, 3, mid), g.side(1, 4, mid), g.side(2, 4, mid)]
     # One pulse per input, a third of a cycle apart.
-    g.pulse(0, [e[0], e[4]], [n[0], n[3], n[5]])
-    g.pulse(4, [e[2], e[6]], [n[1], n[4], n[6]])
-    g.pulse(8, [e[3], e[7], e[8]], [n[2], n[4], n[7], n[8]])
+    g.pulse(0, [e[0]], [n[0], n[3]])
+    g.pulse(4, [e[2]], [n[1], n[4]])
+    g.pulse(8, [e[3]], [n[2], n[4]])
     g.draw()
     d.save("hero.svg")
-
-
-def prompt(d, x, y):
-    """The terminal's prompt sign, drawn (IBM Plex Mono has no such glyph)."""
-    d.add('<path d="M%s %sl4.2 4-4.2 4" fill="none" stroke="%s" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>' % (f(x + 1.6), f(y - 8.4), VIOLET_500))
-
-
-def terminal(F):
-    W, PAD, CH, LH = 900, 24, 7.8, 21
-    whoami = [
-        ("name", "anna hovhannisyan", TEXT),
-        ("role", "ai technical architect at miro", TEXT),
-        ("focus", "enterprise agentic ai, from discovery to delivery", TEXT),
-        ("experience", "11+ years in tech · ai since 2019", TEXT),
-        ("in-house", "miro · asics · pwc · monks", TEXT),
-        ("based", "amsterdam", TEXT),
-        ("site", "annahovhannisyan.com", LILAC_300),
-    ]
-    steps = [("discover", "use-cases.md"), ("build", "agents/ evals/"), ("scale", "platform/"), ("enable", "workshops/ trainings/ playbooks/")]
-    H = 40 + 24 + LH + 16 + len(whoami) * LH + 16 + LH + 16 + len(steps) * 29 + 16 + 37 + 16 + LH + 28
-    d = Doc(W, H, "A terminal. whoami: Anna Hovhannisyan, AI Technical Architect at Miro. Focus: enterprise agentic AI, from discovery to delivery. 11+ years in tech, AI since 2019. In-house at Miro, ASICS, PwC and Monks. Based in Amsterdam. Then how I work, as four steps that run in a loop: discover ships use-cases.md, build ships agents and evals, scale ships a platform, enable ships workshops, trainings and playbooks.")
-    d.css.append("@keyframes show{from{opacity:0}to{opacity:1}}.k{animation:show 1ms linear backwards}")
-    d.css.append("@keyframes blink{50%{opacity:0}}.caret{animation:blink 1.1s steps(1) infinite}")
-    d.css.append(".bar{transform-box:fill-box;transform-origin:0 50%}")
-    d.defs.append('<clipPath id="win"><rect width="%d" height="%d" rx="16"/></clipPath>' % (W, H))
-    d.add('<g clip-path="url(#win)"><rect width="%d" height="%d" fill="%s"/><rect width="%d" height="40" fill="%s"/><rect y="40" width="%d" height="1" fill="%s"/></g>' % (W, H, SURFACE, W, RAISED, W, BORDER))
-    d.add('<rect x=".5" y=".5" width="%d" height="%d" rx="15.5" fill="none" stroke="%s"/>' % (W - 1, H - 1, BORDER))
-    for i in range(3):
-        d.add('<circle cx="%s" cy="20" r="5.5" fill="%s"/>' % (f(21.5 + i * 19), BORDER_STRONG))
-    d.add('<circle cx="%s" cy="20" r="3.5" fill="%s"/>' % (f(W - 19.5), SUCCESS))
-    d.text("anna-hovhan · zsh", F["mono"], 12, W / 2, 24, SUBTLE, anchor="middle")
-
-    def typed(s, x, y, start, step):
-        d.text(s, F["mono"], 13, x, y, MUTED, each=lambda i: ' class="k" style="animation-delay:%ss"' % f(start + i * step))
-        return start + len(s) * step
-
-    y = 40 + 24 + 14.5
-    prompt(d, PAD, y)
-    t = typed("whoami", PAD + 2 * CH, y, 0.6, 0.08)
-    y += LH + 16
-    t += 0.3
-    for key, value, colour in whoami:
-        d.add('<g class="k" style="animation-delay:%ss">' % f(t))
-        d.text(key, F["mono"], 13, PAD, y, SUBTLE)
-        d.text(value, F["mono"], 13, PAD + 96, y, colour)
-        d.add("</g>")
-        y += LH
-        t += 0.12
-    y += 16
-    t += 0.4
-    d.add('<g class="k" style="animation-delay:%ss">' % f(t))
-    prompt(d, PAD, y)
-    d.add("</g>")
-    t = typed("run how-i-work --loop", PAD + 2 * CH, y, t + 0.3, 0.06)
-    y += LH + 16
-    t += 0.3
-
-    # The steps (TerminalSequence): they run in turn, 2.4s each, hold one beat all done, then start again.
-    run, cycle = 2.4, len(steps) * 2.4 + 1.6
-    go = t + 0.9
-    x_name, x_ships, x_bar, x_status = PAD + 4 * CH, PAD + 15 * CH, 600, 748
-    for i, (name, ships) in enumerate(steps):
-        p1, p2 = f(i * run / cycle * 100, 3), f((i + 1) * run / cycle * 100, 3)
-        first = i == 0
-        d.css.append("@keyframes q%d{%s}" % (i, "0%,100%{opacity:0}" if first else "0%%{opacity:1}%s%%{opacity:0}100%%{opacity:0}" % p1))
-        d.css.append("@keyframes r%d{%s%s%%{opacity:0}100%%{opacity:0}}" % (i, "0%{opacity:1}" if first else "0%%{opacity:0}%s%%{opacity:1}" % p1, p2))
-        d.css.append("@keyframes d%d{0%%{opacity:0}%s%%{opacity:1}100%%{opacity:1}}" % (i, p2))
-        d.css.append("@keyframes b%d{0%%{transform:scaleX(0)}%s%s%%{transform:scaleX(1)}100%%{transform:scaleX(1)}}" % (i, "" if first else "%s%%{transform:scaleX(0)}" % p1, p2))
-        anim = lambda k, timing="step-end": "animation:%s%d %ss %s %ss infinite backwards" % (k, i, f(cycle), timing, f(go))
-        still = "done" if i == 0 else "running" if i == 1 else "queued"  # the frame held when motion is off
-        cy = y - 4.4
-        d.add('<g class="k" style="animation-delay:%ss">' % f(t + i * 0.08))
-        d.text("%02d" % (i + 1), F["mono"], 13, PAD, y, SUBTLE)
-        d.text(name, F["mono"], 13, x_name, y, TEXT)
-        w = d.text("ships ", F["mono"], 13, x_ships, y, SUBTLE)
-        d.text(ships, F["mono"], 13, x_ships + w, y, VIOLET_500)
-        d.add('<rect x="%d" y="%s" width="120" height="4" rx="2" fill="%s"/>' % (x_bar, f(cy - 2), BORDER))
-        # queued
-        d.add('<g style="opacity:%d;%s">' % (still == "queued", anim("q")))
-        d.add('<circle cx="%s" cy="%s" r="3.3" fill="none" stroke="%s" stroke-width="1.2"/>' % (f(x_status + 3.9), f(cy), SUBTLE))
-        d.text("queued", F["mono"], 13, x_status + 2 * CH, y, SUBTLE)
-        d.add("</g>")
-        # running
-        d.add('<g style="opacity:%d;%s">' % (still == "running", anim("r")))
-        d.add('<rect class="bar" x="%d" y="%s" width="120" height="4" rx="2" fill="%s" style="transform:scaleX(.6);%s"/>' % (x_bar, f(cy - 2), VIOLET_500, anim("b", "linear")))
-        d.add('<circle cx="%s" cy="%s" r="3.3" fill="none" stroke="%s" stroke-width="1.2"/><path d="M%s %sa3.3 3.3 0 0 0 0 6.6z" fill="%s"/>' % (f(x_status + 3.9), f(cy), VIOLET_500, f(x_status + 3.9), f(cy - 3.3), VIOLET_500))
-        d.text("running", F["mono"], 13, x_status + 2 * CH, y, VIOLET_500)
-        d.add("</g>")
-        # done
-        d.add('<g style="opacity:%d;%s">' % (still == "done", anim("d")))
-        d.add('<rect x="%d" y="%s" width="120" height="4" rx="2" fill="%s"/>' % (x_bar, f(cy - 2), SUCCESS))
-        d.add('<path d="M%s %sl2.7 2.9 5-6.6" fill="none" stroke="%s" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>' % (f(x_status + 0.3), f(cy + 0.6), SUCCESS))
-        d.text("done", F["mono"], 13, x_status + 2 * CH, y, SUCCESS)
-        d.add("</g></g>")
-        y += 29
-    y += 16 - 8
-    t += 0.5
-    # The loop line, built from the steps.
-    d.add('<g class="k" style="animation-delay:%ss">' % f(t))
-    d.add('<rect x="%s" y="%s" width="%d" height="36" rx="8" fill="none" stroke="%s" stroke-dasharray="4 4"/>' % (f(PAD + 0.5), f(y - 14 + 0.5), W - 2 * PAD - 1, RULE_DASHED))
-    w = d.text("↺ ", F["mono"], 12, PAD + 16, y + 8.5, SUCCESS)
-    d.text(" → ".join(s for s, _ in steps), F["mono"], 12, PAD + 16 + w, y + 8.5, MUTED)
-    d.add("</g>")
-    y += 37 - 14 + 16 + 14.5
-    d.add('<g class="k" style="animation-delay:%ss">' % f(t + 0.2))
-    prompt(d, PAD, y)
-    d.add('<rect class="caret" x="%s" y="%s" width="8" height="15.6" fill="%s"/>' % (f(PAD + 2 * CH), f(y - 12.2), VIOLET_500))
-    d.add("</g>")
-    d.save("terminal.svg")
-
-
-def card_head(d, F, x, y, path, right):
-    mark(d, x, y - 9.5)
-    d.text(path, F["mono"], 12, x + 21, y, SUBTLE)
-    d.text("↗", F["mono5"], 15, right, y + 1, LILAC_300, anchor="end")
-
-
-def featured(F):
-    W, H, P = 900, 276, 32
-    d = Doc(W, H, "Company Brain: strategy, goals, projects and weekly work in one linked folder that AI agents read before they act, so every answer starts with company context. An Obsidian vault run by Claude through 32 skills, an MCP server and a CLI, with private, team and company layers. Opens the repository anna-hovhan/company-brain.")
-    panel(d, 0, 0, W, H, 20, SURFACE, BORDER)
-    card_head(d, F, P, 50, "anna-hovhan/company-brain", W - P)
-    d.text("Company Brain", F["h2"], 30, P, 100, TEXT, -0.01)
-    y = 136
-    for line in wrap(F["sans"], 16, "Strategy, goals, projects and weekly work in one linked folder that AI agents read before they act, so every answer starts with company context.", 430):
-        d.text(line, F["sans"], 16, P, y, MUTED)
-        y += 25.6
-    d.text("claude-code · obsidian · mcp-server · cli · 32 skills", F["mono"], 12, P, H - P - 2, VIOLET_500)
-    # The three layers, each read by the agent.
-    g = Graph(d, F, cycle=9, per=2.4)
-    a, b = 536, 722
-    layers = [g.node(a, 100, "company/"), g.node(a, 156, "team/"), g.node(a, 212, "private/")]
-    agent = g.node(b, 156, "agent.read()")
-    for i, n in enumerate(layers):
-        g.pulse(i * 3, [g.side(n, agent, 688)], [n, agent])
-    g.draw()
-    d.save("card-company-brain.svg")
-
-
-def small_cards(F):
-    cards = [
-        ("card-loopboard.svg", "anna-hovhan/loopboard", "loopboard", "A Claude Code plugin that gathers Slack and Jira conversations onto a Miro board, then exports board items back to Jira as issues.", "claude-code · slack · jira · miro", 0),
-        ("card-shared-context-sync.svg", "anna-hovhan/shared-context-sync", "shared-context-sync", "A Claude plugin that keeps one Claude Project in sync with a shared Google Drive folder and your private local files, on a daily schedule.", "claude · google-drive · scheduled-task", 8),
-    ]
-    CW, P = 442, 28
-    wrapped = [wrap(F["sans"], 16, c[3], CW - 2 * P) for c in cards]
-    H = 116 + max(len(w) for w in wrapped) * 25.6 + 6 + 12 + P
-    for (file, path, title, body, tags, left), lines in zip(cards, wrapped):
-        # Each image is 450 wide and carries half of the 16px gutter, so two at 50% sit flush with the card above.
-        d = Doc(CW + 8, H, "%s: %s Opens the repository %s." % (title, body, path))
-        d.add('<g transform="translate(%d 0)">' % left)
-        panel(d, 0, 0, CW, H, 16, SURFACE, BORDER)
-        card_head(d, F, P, 46, path, CW - P)
-        d.text(title, F["sans6"], 20, P, 86, TEXT, -0.01)
-        for i, line in enumerate(lines):
-            d.text(line, F["sans"], 16, P, 118 + i * 25.6, MUTED)
-        d.text(tags, F["mono"], 12, P, H - P - 2, VIOLET_500)
-        d.add("</g>")
-        d.save(file)
-
-
-def buttons(F):
-    """Pills at the small control height (44px). Each image has the same margins, so they line up in a row."""
-    M, TOP, H = 6, 6, 68
-    for file, label, arrow, primary in [("btn-work.svg", "See my work", "→", True), ("btn-linkedin.svg", "linkedin.com/in/anna-hovhannisyan", "↗", False), ("btn-email.svg", "Email me", "→", False)]:
-        font = F["sans6"] if primary else F["sans5"]
-        tw, aw = font.width(label, 16), font.width(arrow, 16)
-        w = round(18 + tw + 10 + aw + 18)
-        d = Doc(w + 2 * M, H, label)
-        if primary:
-            d.defs.append('<filter id="s" x="-20%" y="-60%" width="140%" height="260%"><feGaussianBlur stdDeviation="7"/></filter>')
-            d.add('<rect x="%d" y="%d" width="%d" height="26" rx="13" fill="%s" opacity=".7" filter="url(#s)"/>' % (M + 14, TOP + 24, w - 28, VIOLET_500))
-            d.add('<rect x="%d" y="%d" width="%d" height="44" rx="22" fill="%s"/>' % (M, TOP, w, VIOLET_500))  # the accent, violet-500, solid
-            d.add('<rect x="%s" y="%s" width="%d" height="43" rx="21.5" fill="none" stroke="#fff" stroke-opacity=".45"/>' % (f(M + 0.5), f(TOP + 0.5), w - 1))
-        else:
-            d.add('<rect x="%s" y="%s" width="%d" height="43" rx="21.5" fill="%s" stroke="%s"/>' % (f(M + 0.5), f(TOP + 0.5), w - 1, GHOST, BORDER_STRONG))
-        ink = ON_ACCENT if primary else TEXT
-        d.text(label, font, 16, M + 18, TOP + 27.5, ink)
-        d.text(arrow, font, 16, M + 18 + tw + 10, TOP + 27.5, ink if primary else LILAC_300)
-        d.save(file)
 
 
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
     F = fonts()
     hero(F)
-    buttons(F)
-    featured(F)
-    small_cards(F)
-    terminal(F)
