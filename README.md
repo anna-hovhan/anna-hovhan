@@ -10,10 +10,4 @@ Building AI agents, systems and plugins for teams. [Company Brain](https://githu
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-anna--hovhannisyan-0A66C2?style=flat-square)](https://www.linkedin.com/in/anna-hovhannisyan/)
 [![Email](https://img.shields.io/badge/Email-hello@annahovhannisyan.com-5B4FE0?style=flat-square)](mailto:hello@annahovhannisyan.com)
 
-## How I work
-
-<p>
-  <img src="assets/terminal.svg" width="100%" alt="A terminal. whoami: Anna Hovhannisyan, AI Technical Architect. Focus: enterprise agentic AI, from discovery to delivery. 11+ years in tech, AI since 2019. Based in Amsterdam. Then four steps that run in a loop: discover ships use cases, build ships agents and evals, scale ships a platform, enable ships workshops, trainings and playbooks." />
-</p>
-
-<!-- The two images are drawn by scripts/build_readme.py, in the style of the design system behind annahovhannisyan.com. Edit the words there and run it again. -->
+<!-- The banner is drawn by scripts/build_readme.py, in the style of the design system behind annahovhannisyan.com. Edit the words there and run it again. -->

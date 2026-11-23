@@ -39,7 +39,7 @@ RULE_DASHED = "#24275a"
 TEXT, MUTED, SUBTLE, TEXT_NODE = "#eeedf7", "#b4b6d4", "#9c9fc4", "#c9c6ea"
 LILAC_50, LILAC_100, LILAC_200, LILAC_300, LILAC_400 = "#f5edff", "#eadcff", "#e6d9ff", "#c4a7ff", "#b8a6ff"
 VIOLET_500, VIOLET_600, VIOLET_700 = "#8f7cff", "#6d5dfc", "#5b4fe0"
-GLOW, ON_ACCENT, SUCCESS = "#b794f6", "#07081a", "#7ee2a8"
+GLOW = "#b794f6"
 
 
 def f(v, n=2):
@@ -143,7 +143,6 @@ def fonts():
     return {
         "h1": Font("Newsreader.ttf", wght=400, opsz=60),
         "sans6": Font("Schibsted.ttf", wght=600),
-        "mono": Font("PlexMono-Regular.ttf"),
         "mono5": Font("PlexMono-Medium.ttf"),
     }
 
@@ -305,116 +304,7 @@ def hero(F):
     d.save("hero.svg")
 
 
-def prompt(d, x, y):
-    """The terminal's prompt sign, drawn (IBM Plex Mono has no such glyph)."""
-    d.add('<path d="M%s %sl4.2 4-4.2 4" fill="none" stroke="%s" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>' % (f(x + 1.6), f(y - 8.4), VIOLET_500))
-
-
-def terminal(F):
-    W, PAD, CH, LH = 900, 24, 7.8, 21
-    whoami = [
-        ("name", "anna hovhannisyan", TEXT),
-        ("role", "ai technical architect", TEXT),
-        ("focus", "enterprise agentic ai, from discovery to delivery", TEXT),
-        ("experience", "11+ years in tech · ai since 2019", TEXT),
-        ("based", "amsterdam", TEXT),
-        ("site", "annahovhannisyan.com", LILAC_300),
-    ]
-    steps = [("discover", "use-cases.md"), ("build", "agents/ evals/"), ("scale", "platform/"), ("enable", "workshops/ trainings/ playbooks/")]
-    H = 40 + 24 + LH + 16 + len(whoami) * LH + 16 + LH + 16 + len(steps) * 29 + 16 + 37 + 16 + LH + 28
-    d = Doc(W, H, "A terminal. whoami: Anna Hovhannisyan, AI Technical Architect. Focus: enterprise agentic AI, from discovery to delivery. 11+ years in tech, AI since 2019. Based in Amsterdam. Then how I work, as four steps that run in a loop: discover ships use-cases.md, build ships agents and evals, scale ships a platform, enable ships workshops, trainings and playbooks.")
-    d.css.append("@keyframes show{from{opacity:0}to{opacity:1}}.k{animation:show 1ms linear backwards}")
-    d.css.append("@keyframes blink{50%{opacity:0}}.caret{animation:blink 1.1s steps(1) infinite}")
-    d.css.append(".bar{transform-box:fill-box;transform-origin:0 50%}")
-    d.defs.append('<clipPath id="win"><rect width="%d" height="%d" rx="16"/></clipPath>' % (W, H))
-    d.add('<g clip-path="url(#win)"><rect width="%d" height="%d" fill="%s"/><rect width="%d" height="40" fill="%s"/><rect y="40" width="%d" height="1" fill="%s"/></g>' % (W, H, SURFACE, W, RAISED, W, BORDER))
-    d.add('<rect x=".5" y=".5" width="%d" height="%d" rx="15.5" fill="none" stroke="%s"/>' % (W - 1, H - 1, BORDER))
-    for i in range(3):
-        d.add('<circle cx="%s" cy="20" r="5.5" fill="%s"/>' % (f(21.5 + i * 19), BORDER_STRONG))
-    d.add('<circle cx="%s" cy="20" r="3.5" fill="%s"/>' % (f(W - 19.5), SUCCESS))
-    d.text("anna-hovhan · zsh", F["mono"], 12, W / 2, 24, SUBTLE, anchor="middle")
-
-    def typed(s, x, y, start, step):
-        d.text(s, F["mono"], 13, x, y, MUTED, each=lambda i: ' class="k" style="animation-delay:%ss"' % f(start + i * step))
-        return start + len(s) * step
-
-    y = 40 + 24 + 14.5
-    prompt(d, PAD, y)
-    t = typed("whoami", PAD + 2 * CH, y, 0.6, 0.08)
-    y += LH + 16
-    t += 0.3
-    for key, value, colour in whoami:
-        d.add('<g class="k" style="animation-delay:%ss">' % f(t))
-        d.text(key, F["mono"], 13, PAD, y, SUBTLE)
-        d.text(value, F["mono"], 13, PAD + 96, y, colour)
-        d.add("</g>")
-        y += LH
-        t += 0.12
-    y += 16
-    t += 0.4
-    d.add('<g class="k" style="animation-delay:%ss">' % f(t))
-    prompt(d, PAD, y)
-    d.add("</g>")
-    t = typed("run how-i-work --loop", PAD + 2 * CH, y, t + 0.3, 0.06)
-    y += LH + 16
-    t += 0.3
-
-    # The steps (TerminalSequence): they run in turn, 2.4s each, hold one beat all done, then start again.
-    run, cycle = 2.4, len(steps) * 2.4 + 1.6
-    go = t + 0.9
-    x_name, x_ships, x_bar, x_status = PAD + 4 * CH, PAD + 15 * CH, 600, 748
-    for i, (name, ships) in enumerate(steps):
-        p1, p2 = f(i * run / cycle * 100, 3), f((i + 1) * run / cycle * 100, 3)
-        first = i == 0
-        d.css.append("@keyframes q%d{%s}" % (i, "0%,100%{opacity:0}" if first else "0%%{opacity:1}%s%%{opacity:0}100%%{opacity:0}" % p1))
-        d.css.append("@keyframes r%d{%s%s%%{opacity:0}100%%{opacity:0}}" % (i, "0%{opacity:1}" if first else "0%%{opacity:0}%s%%{opacity:1}" % p1, p2))
-        d.css.append("@keyframes d%d{0%%{opacity:0}%s%%{opacity:1}100%%{opacity:1}}" % (i, p2))
-        d.css.append("@keyframes b%d{0%%{transform:scaleX(0)}%s%s%%{transform:scaleX(1)}100%%{transform:scaleX(1)}}" % (i, "" if first else "%s%%{transform:scaleX(0)}" % p1, p2))
-        anim = lambda k, timing="step-end": "animation:%s%d %ss %s %ss infinite backwards" % (k, i, f(cycle), timing, f(go))
-        still = "done" if i == 0 else "running" if i == 1 else "queued"  # the frame held when motion is off
-        cy = y - 4.4
-        d.add('<g class="k" style="animation-delay:%ss">' % f(t + i * 0.08))
-        d.text("%02d" % (i + 1), F["mono"], 13, PAD, y, SUBTLE)
-        d.text(name, F["mono"], 13, x_name, y, TEXT)
-        w = d.text("ships ", F["mono"], 13, x_ships, y, SUBTLE)
-        d.text(ships, F["mono"], 13, x_ships + w, y, VIOLET_500)
-        d.add('<rect x="%d" y="%s" width="120" height="4" rx="2" fill="%s"/>' % (x_bar, f(cy - 2), BORDER))
-        # queued
-        d.add('<g style="opacity:%d;%s">' % (still == "queued", anim("q")))
-        d.add('<circle cx="%s" cy="%s" r="3.3" fill="none" stroke="%s" stroke-width="1.2"/>' % (f(x_status + 3.9), f(cy), SUBTLE))
-        d.text("queued", F["mono"], 13, x_status + 2 * CH, y, SUBTLE)
-        d.add("</g>")
-        # running
-        d.add('<g style="opacity:%d;%s">' % (still == "running", anim("r")))
-        d.add('<rect class="bar" x="%d" y="%s" width="120" height="4" rx="2" fill="%s" style="transform:scaleX(.6);%s"/>' % (x_bar, f(cy - 2), VIOLET_500, anim("b", "linear")))
-        d.add('<circle cx="%s" cy="%s" r="3.3" fill="none" stroke="%s" stroke-width="1.2"/><path d="M%s %sa3.3 3.3 0 0 0 0 6.6z" fill="%s"/>' % (f(x_status + 3.9), f(cy), VIOLET_500, f(x_status + 3.9), f(cy - 3.3), VIOLET_500))
-        d.text("running", F["mono"], 13, x_status + 2 * CH, y, VIOLET_500)
-        d.add("</g>")
-        # done
-        d.add('<g style="opacity:%d;%s">' % (still == "done", anim("d")))
-        d.add('<rect x="%d" y="%s" width="120" height="4" rx="2" fill="%s"/>' % (x_bar, f(cy - 2), SUCCESS))
-        d.add('<path d="M%s %sl2.7 2.9 5-6.6" fill="none" stroke="%s" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>' % (f(x_status + 0.3), f(cy + 0.6), SUCCESS))
-        d.text("done", F["mono"], 13, x_status + 2 * CH, y, SUCCESS)
-        d.add("</g></g>")
-        y += 29
-    y += 16 - 8
-    t += 0.5
-    # The loop line, built from the steps.
-    d.add('<g class="k" style="animation-delay:%ss">' % f(t))
-    d.add('<rect x="%s" y="%s" width="%d" height="36" rx="8" fill="none" stroke="%s" stroke-dasharray="4 4"/>' % (f(PAD + 0.5), f(y - 14 + 0.5), W - 2 * PAD - 1, RULE_DASHED))
-    w = d.text("↺ ", F["mono"], 12, PAD + 16, y + 8.5, SUCCESS)
-    d.text(" → ".join(s for s, _ in steps), F["mono"], 12, PAD + 16 + w, y + 8.5, MUTED)
-    d.add("</g>")
-    y += 37 - 14 + 16 + 14.5
-    d.add('<g class="k" style="animation-delay:%ss">' % f(t + 0.2))
-    prompt(d, PAD, y)
-    d.add('<rect class="caret" x="%s" y="%s" width="8" height="15.6" fill="%s"/>' % (f(PAD + 2 * CH), f(y - 12.2), VIOLET_500))
-    d.add("</g>")
-    d.save("terminal.svg")
-
-
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
     F = fonts()
     hero(F)
-    terminal(F)
