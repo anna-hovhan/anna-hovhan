@@ -345,9 +345,9 @@ def terminal(F):
         ("based", "amsterdam", TEXT),
         ("site", "annahovhannisyan.com", LILAC_300),
     ]
-    steps = [("discover", "use-cases.md"), ("build", "agents/ evals/"), ("scale", "platform/"), ("enable", "playbooks/")]
+    steps = [("discover", "use-cases.md"), ("build", "agents/ evals/"), ("scale", "platform/"), ("enable", "workshops/ trainings/ playbooks/")]
     H = 40 + 24 + LH + 16 + len(whoami) * LH + 16 + LH + 16 + len(steps) * 29 + 16 + 37 + 16 + LH + 28
-    d = Doc(W, H, "A terminal. whoami: Anna Hovhannisyan, AI Technical Architect at Miro. Focus: enterprise agentic AI, from discovery to delivery. 11+ years in tech, AI since 2019. In-house at Miro, ASICS, PwC and Monks. Based in Amsterdam. Then how I work, as four steps that run in a loop: discover ships use-cases.md, build ships agents and evals, scale ships a platform, enable ships playbooks.")
+    d = Doc(W, H, "A terminal. whoami: Anna Hovhannisyan, AI Technical Architect at Miro. Focus: enterprise agentic AI, from discovery to delivery. 11+ years in tech, AI since 2019. In-house at Miro, ASICS, PwC and Monks. Based in Amsterdam. Then how I work, as four steps that run in a loop: discover ships use-cases.md, build ships agents and evals, scale ships a platform, enable ships workshops, trainings and playbooks.")
     d.css.append("@keyframes show{from{opacity:0}to{opacity:1}}.k{animation:show 1ms linear backwards}")
     d.css.append("@keyframes blink{50%{opacity:0}}.caret{animation:blink 1.1s steps(1) infinite}")
     d.css.append(".bar{transform-box:fill-box;transform-origin:0 50%}")

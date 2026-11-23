@@ -21,7 +21,7 @@
 ###### HOW I WORK
 
 <p>
-  <img src="assets/terminal.svg" width="100%" alt="A terminal. whoami: Anna Hovhannisyan, AI Technical Architect at Miro. Focus: enterprise agentic AI, from discovery to delivery. 11+ years in tech, AI since 2019. In-house at Miro, ASICS, PwC and Monks. Based in Amsterdam. Then four steps that run in a loop: discover ships use cases, build ships agents and evals, scale ships a platform, enable ships playbooks." />
+  <img src="assets/terminal.svg" width="100%" alt="A terminal. whoami: Anna Hovhannisyan, AI Technical Architect at Miro. Focus: enterprise agentic AI, from discovery to delivery. 11+ years in tech, AI since 2019. In-house at Miro, ASICS, PwC and Monks. Based in Amsterdam. Then four steps that run in a loop: discover ships use cases, build ships agents and evals, scale ships a platform, enable ships workshops, trainings and playbooks." />
 </p>
 
 <!-- The images are drawn by scripts/build_readme.py, in the style of the design system behind annahovhannisyan.com. Edit the words there and run it again. -->
