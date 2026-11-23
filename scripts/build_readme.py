@@ -305,7 +305,7 @@ def hero(F):
 
 
 STACK = ["Python", "TypeScript", "Claude Code", "Obsidian", "MCP", "Anthropic", "OpenAI", "Google", "Cloudflare", "Supabase"]
-LINKS = [("link-website.svg", "annahovhannisyan.com"), ("link-linkedin.svg", "LinkedIn"), ("link-email.svg", "hello@annahovhannisyan.com")]
+LINKS = [("link-website.svg", "annahovhannisyan.com"), ("link-linkedin.svg", "linkedin.com/in/anna-hovhannisyan"), ("link-email.svg", "hello@annahovhannisyan.com")]
 
 
 def stack(F):

@@ -10,7 +10,7 @@ Building AI agents, systems and plugins for teams. [Company Brain](https://githu
 
 <p align="center">
   <a href="https://annahovhannisyan.com"><img src="assets/link-website.svg" height="34" alt="Website: annahovhannisyan.com" /></a>
-  <a href="https://www.linkedin.com/in/anna-hovhannisyan/"><img src="assets/link-linkedin.svg" height="34" alt="LinkedIn" /></a>
+  <a href="https://www.linkedin.com/in/anna-hovhannisyan/"><img src="assets/link-linkedin.svg" height="34" alt="LinkedIn: linkedin.com/in/anna-hovhannisyan" /></a>
   <a href="mailto:hello@annahovhannisyan.com"><img src="assets/link-email.svg" height="34" alt="Email: hello@annahovhannisyan.com" /></a>
 </p>
 
